@@ -1,0 +1,36 @@
+.contentHeader{
+    margin: 0 0 50px;
+    color: #066809;
+}
+.table{
+    margin-top: 40px;
+    margin-left: 23%;
+    width: 75%;
+    height: 800px;
+}
+.datatable{
+    width: 100% ;
+}
+tr th{
+    border: 1px solid black;
+    padding: 15px;
+    width: 250px;
+}
+th{
+    background-color: #04AA6D;
+    color: white;
+    text-align: left;
+}
+tr:nth-child(odd){
+    background-color: #c2bfbf;
+}
+.tableData, .time-cell{
+    border: 2px solid #066809;
+    padding: 15px 5px;
+}
+.no-record{
+    text-align: center;
+    padding: 50px;
+    border: 1px solid black;
+    font-size: 24px;
+}

@@ -1,0 +1,61 @@
+.dashboard{
+    margin-top: 40px;
+    margin-left: 23%;
+    width: 75%;
+}
+.dashboardHeader{
+    color: #066809;
+    margin-bottom: 40px;
+}
+.grid{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    column-gap: 10px;
+    row-gap: 10px;
+}
+.grid-item{
+    background-color: #f3c220;
+    cursor: pointer;
+    border-radius: 10px;
+    height: 150px;
+    border: 1px solid black;
+    font-size: 18px;
+    padding-left: 20px;
+    float: left;
+}
+.grid-item:hover{
+    background-color: #b9910c;
+}
+.grid{
+    padding: 5px;
+}
+.img-container{
+    background-color: white;
+    border-radius: 10px;
+    float: left;
+    margin: 10px 0 20px;
+    border: 1px solid black;
+    height: 80%;
+    width: 40%;
+    margin-right: 10px;
+}
+.itemText{
+    margin-top: 10px;
+}
+.itemText P{
+    margin: 5px 0;
+}
+.btn{
+    background-color: #066809; 
+    color: white; 
+    height: 40px;
+    width: 200px;
+    border-radius: 10px;
+}
+.qrbutton:hover {
+    background-color: #07a10d; 
+
+}
+.btn:hover{
+    background-color: #07a10d; 
+}

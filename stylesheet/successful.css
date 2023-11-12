@@ -1,0 +1,29 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans', sans-serif;
+}
+body{
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    padding: 25px;
+    border: 4px solid #1d8a21;
+    border-radius: 10px;
+    margin: 10% auto;
+    width: 50%;
+}
+.header{
+    font-size: 24px;
+    font-weight: 900;
+    margin: 10px 0;
+}
+@media only screen and (max-width: 600px){  
+    .container{
+        min-width: 95%
+    }
+}

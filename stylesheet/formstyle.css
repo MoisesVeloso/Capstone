@@ -1,0 +1,114 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans', sans-serif;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../image/asd.jpg);
+    background-size: cover;
+    background-position: 50%;
+}
+.container{
+    border: 4px solid #1d8a21;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5% auto;
+    width: 350px;
+    border-style: solid;
+    border-radius: 10px;
+    background-color: rgba(217, 217, 217, 0.75);
+}
+.header{
+    text-align: center;
+    margin: 30px 0;
+    font-weight: bold;
+}
+.form{
+    margin-top: 20px;
+    width: 70%;
+}
+label{
+    font-weight: bold;
+    text-align: left;
+}
+.formContainer{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+.textbox{
+    margin: 10px 0;
+    height: 30px;
+    width: 100%;
+}
+.buttonContainer{
+    display: flex;
+    justify-content: center;
+    height: 40px;
+    margin: 10% auto;
+    width: 100%;
+
+}
+.btn{
+    width: 50%;
+    background-color: #07a10d;
+    border: #07a10d;
+    color: white;
+    border-radius: 10px;
+}
+.btn:hover{
+    background-color: #066809;
+}
+.dropdown{
+    width: 100%;
+    height: 30px;
+}
+.reference-search{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+a{
+    text-decoration: none;
+}
+.link{
+    font-size: 18px;
+    color: white;
+    font-weight: 700;
+}
+.link:hover{
+    color: #097133;
+}
+input[type="text"]{
+    width:100%;
+    padding: 20px 0;
+    margin-top: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
+select{
+    margin-top: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+@media only screen and (max-width: 600px) {
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url(../image/asd.jpg);
+        background-size: auto;
+        background-position: 62% center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        margin-top: 25%;
+  }
+}
