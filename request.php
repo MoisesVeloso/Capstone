@@ -37,11 +37,48 @@ $dashboardColor = isset($departmentColors[$department]) ? $departmentColors[$dep
         <li class="links">
             <a href="dashboard.php">Dashboard</a>
             <a href="history.php">History</a>
-            <a href="request.php" class="active">Request</a>
+            <a href="request.php" class="active">Request <span id="noti_number" class="noti_number"></span></a>
+                <script type="text/javascript">
+                            function loadDoc() {
+                            
+
+                            setInterval(function(){
+
+                            var xhttp = new XMLHttpRequest();
+                            xhttp.onreadystatechange = function() {
+                                if (this.readyState == 4 && this.status == 200) {
+                                document.getElementById("noti_number").innerHTML = this.responseText;
+                                }
+                            };
+                            xhttp.open("GET", "data.php", true);
+                            xhttp.send();
+
+                            },1000);
+
+
+                            }
+                            loadDoc();
+                        </script>
         </li>
-    <div class="btnContainer">
-        <button class="logoutBtn" type="button">Logout</button>
-    </div>
+        <div class="btnContainer">
+            <button class="logoutBtn" id="logout" type="button">Logout</button>
+        </div>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <h3 class="headerContent">Logout</h3>
+                <p class="content">Are you sure?</p>
+                <div class="modalBtn">
+                    <form method="post" action="logout.php">
+                        <button onclick="location.href='index.php'" class="ybtn logoutButton">Yes</button>
+                    </form>
+                        <button class="nbtn logoutButton">No</button>
+                </div>
+            </div>
+        </div>
+
+      <script src="Javascript/logoutFunction.js"></script>  
+      <script src="Javascript/active.js"></script>
     </div>
 
         <div class="table">
@@ -91,7 +128,7 @@ $dashboardColor = isset($departmentColors[$department]) ? $departmentColors[$dep
                             <option value='Declined' " . ($row['approval_status'] == 'Declined' ? 'selected' : '') . ">Declined</option>
                         </select>
                         <input type='hidden' name='reference_number' value='" . $row['reference_number'] . "'>
-                        <input type='submit' name='submit' value='Update'>
+                        <input type='submit' class='statusUpdateBtn' name='submit' value='Update'>
                     </form>
                     </td>";
                 echo "</tr>";

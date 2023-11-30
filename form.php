@@ -1,47 +1,41 @@
-<?php
-$servername = "localhost";
-$username = "root";
-$password = ""; 
-$database = "resourcetracking";
 
-$conn = new mysqli($servername, $username, $password, $database);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet/formstyle.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <title>Fill Up Form</title>
+</head>
+<body>
+    <div class="container">
+            <form action="fetchUserData.php" method="post" class="formContainer">
+                <div class="form">
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+                    <?php if (isset($_GET['error'])) { ?>
+                        <div class="error"><?php echo $_GET['error']; ?></div>
+                    <?php } ?>
+                    
+                    
+                    <h1 class="header">Fill Up Form</h1>
+                    <label for="referenceNumber">Reference Number</label><br>
+                    <input type="text" id="referenceNumber" name="referenceNumber" class="textbox" placeholder="Reference Number" required><br>
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fullname = $_POST['fullname'];
-    $yearSection = $_POST['year-section'];
-    $studentNo = $_POST['studentNo'];
-    $department = $_POST['department'];
-    $equipment = $_POST['equipment'];
 
-    // Extract equipment data from QR code data
-    $qrCodeData = $_POST['qrcode']; // Assuming 'qrcode' is the name of the input field
-
-    // Parse the QR code data to extract equipment details (e.g., brand)
-    $brand = ''; // Initialize variables for equipment data
-
-    // Split the QR code data by a delimiter (e.g., comma) to separate values
-    $qrCodeParts = explode(',', $qrCodeData);
-
-    // Iterate through the parts to extract equipment information and add debugging
-    foreach ($qrCodeParts as $part) {
-        $part = trim($part);
-        list($key, $value) = explode(':', $part);
-        $key = trim($key);
-        $value = trim($value);
-
-        if ($key == 'Brand') {
-            $brand = $value;
-            echo "Extracted Brand: $brand"; // Debugging: Display the extracted brand
-        }
-    }
-
-    // After the loop, check the extracted value
-    echo "Final Brand: $brand"; // Debugging: Display the final extracted brand
-
-    // ... Continue with the rest of your code for database insertion ...
-}
-?>
+                    <?php
+                $equipment = isset($_GET['brand']) ? $_GET['brand'] : '';
+                echo '<input type="hidden" id="equipment" name="equipment" class="textbox" value="' . htmlspecialchars($equipment) . '" required>';
+                ?>
+                    <div class="buttonContainer">
+                        <input type="submit" value="Submit" class="btn">
+                    </div>
+                </div>
+            </form>
+    </div>
+   
+    
+</body>
+</html>

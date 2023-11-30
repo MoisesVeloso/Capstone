@@ -58,6 +58,10 @@ li a.active {
   background-color: #146C94;
   color: white;
 }
+#noti_number{
+  float: right;
+  color: red;
+}
 
 /* Modal */
 .modal {

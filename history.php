@@ -37,16 +37,36 @@ $dashboardColor = isset($departmentColors[$department]) ? $departmentColors[$dep
         <li class="links">
             <a href="dashboard.php">Dashboard</a>
             <a href="history.php" class="active">History</a>
-            <a href="request.php">Request</a>
+            <a href="request.php">Request <span id="noti_number" class="noti_number"></span></a>
+                <script type="text/javascript">
+                            function loadDoc() {
+                        
+                            setInterval(function(){
+
+                            var xhttp = new XMLHttpRequest();
+                            xhttp.onreadystatechange = function() {
+                                if (this.readyState == 4 && this.status == 200) {
+                                document.getElementById("noti_number").innerHTML = this.responseText;
+                                }
+                            };
+                            xhttp.open("GET", "data.php", true);
+                            xhttp.send();
+
+                            },1000);
+
+
+                            }
+                            loadDoc();
+                        </script>
         </li>
         
         <div class="btnContainer">
-            <button class="logoutBtn" type="button">Logout</button>
+            <button class="logoutBtn" id="logout" type="button">Logout</button>
         </div>
 
         <div id="myModal" class="modal">
             <div class="modal-content">
-                <h1>Logout</h1>
+                <h3 class="headerContent">Logout</h3>
                 <p class="content">Are you sure?</p>
                 <div class="modalBtn">
                     <form method="post" action="logout.php">
@@ -56,7 +76,9 @@ $dashboardColor = isset($departmentColors[$department]) ? $departmentColors[$dep
                 </div>
             </div>
         </div>
-        <script src="Javascript/logoutFunction.js"></script>  
+    <script src="Javascript/notifcation.js"></script>
+    <script src="Javascript/logoutFunction.js"></script>  
+    <script src="Javascript/active.js"></script>
     </div>
 
     <div class="table">
@@ -69,6 +91,9 @@ $dashboardColor = isset($departmentColors[$department]) ? $departmentColors[$dep
                 <th>Section</th>
                 <th>Equipment</th>
                 <th>Date & Time</th>
+                <th>Reference Number</th>
+                <th>Status</th>
+                <th>Action</th>
             </tr>
             <?php
         $servername = "localhost";
@@ -82,7 +107,7 @@ $dashboardColor = isset($departmentColors[$department]) ? $departmentColors[$dep
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT fullname, year_section, studentNo, equipment, time, DATE_FORMAT(time, '%Y-%m-%d  %h:%i %p') as formatted_time FROM form";
+        $sql = "SELECT fullname, year_section, studentNo, equipment, time, DATE_FORMAT(time, '%Y-%m-%d  %h:%i %p') as formatted_time, reference_number, status, action FROM form WHERE department = '$department'";
         $result = $conn->query($sql);
 
         if ($result !== false && $result->num_rows > 0) {
@@ -93,10 +118,26 @@ $dashboardColor = isset($departmentColors[$department]) ? $departmentColors[$dep
                 echo "<td class='tableData'>" . $row['year_section'] . "</td>";
                 echo "<td class='tableData'>" . $row['equipment'] . "</td>";
                 echo "<td class='time-cell'>" . $row['time'] . "</td>";
+                echo "<td class='time-cell'>" . $row['reference_number'] . "</td>";
+                echo "<td class='tableData'>" . $row['status'] . "</td>";
+                echo "<td class='tableData'>";
+                
+                if ($row['status'] !== 'Returned') {
+                    echo "<form method='post' action='updateHistoryStatus.php'>
+                            <input type='hidden' name='reference_number' value='" . $row['reference_number'] . "'>
+                            <button type='submit' class='updateStatusBtn' name='return' value='Returned Item'>Return</button>
+                          </form>";
+                } else {
+                    echo "<button class='updateStatusBtn' disabled>Return</button>";
+                }
+        
+                echo "</td>";
                 echo "</tr>";
             }
+        
+            echo "</table>";
         } else {
-            echo "<tr><td colspan='5' class='no-record'>No records found</td></tr>";
+            echo "<tr><td colspan='8' class='no-record'>No records found</td></tr>";
         }
 
         $conn->close();

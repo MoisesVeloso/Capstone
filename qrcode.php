@@ -2,9 +2,9 @@
 include('phpqrcode/qrlib.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['brand'])) {
-    $brand = $_POST['brand'];
+    $equipment = $_POST['brand'];
 
-    $qrCodeData = "Brand: $brand, Link: 172.20.10.2/Capstone/form.html";
+    $qrCodeData = "Equipment: $equipment, Link: 10.0.9.253/Capstone/form.php?brand=$equipment";
 
     $filename = 'qrcodes/' . uniqid('qr_') . '.png';
 
