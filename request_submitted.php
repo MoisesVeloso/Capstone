@@ -20,6 +20,10 @@
         ?>
         <div class="btn">
         <button id="copybtn" onclick="copyReference()">Copy Reference Number</button>
+
+        <div class="btnlink">
+        <a href="requeststatus.php">Check your Status</a>
+        </div>
     </div>
     </div>
     <script>
@@ -36,5 +40,6 @@
             copyButton.textContent = "Copied";
         }
     </script>
+
 </body>
 </html>

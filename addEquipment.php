@@ -1,5 +1,5 @@
 <?php
-
+// Establish database connection
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -13,37 +13,39 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($username) {
-        $sqlUserId = "SELECT id FROM usertable WHERE username = '$username'";
-        $resultUserId = $conn->query($sqlUserId);
+        // Fetch user's department
+        $sqlUser = "SELECT department FROM usertable WHERE username = ?";
+        $stmtUser = $conn->prepare($sqlUser);
 
-        if ($resultUserId !== false && $resultUserId->num_rows > 0) {
-            $rowUserId = $resultUserId->fetch_assoc();
-            $userId = $rowUserId['id'];
+        if ($stmtUser) {
+            $stmtUser->bind_param("s", $username);
+            $stmtUser->execute();
+            $resultUser = $stmtUser->get_result();
 
-            $sqlUser = "SELECT department FROM usertable WHERE id = $userId";
-            $resultUser = $conn->query($sqlUser);
-
-            if ($resultUser !== false && $resultUser->num_rows > 0) {
+            if ($resultUser->num_rows > 0) {
                 $rowUser = $resultUser->fetch_assoc();
                 $userDepartment = $rowUser['department'];
 
+                // Process file upload
                 $imagePath = 'uploads/' . basename($_FILES['image']['name']);
                 move_uploaded_file($_FILES['image']['tmp_name'], $imagePath);
 
-                $brand = $_POST['brand'];
+                // Get other form data
+                $equipment = $_POST['equipment'];
                 $type = $_POST['type'];
 
-                $sql = "INSERT INTO equipment (brand, type, image_path, department) VALUES (?, ?, ?, ?)";
+                // Insert into database using prepared statement
+                $sql = "INSERT INTO equipment (equipment, type, image_path, department) VALUES (?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
 
                 if ($stmt) {
-                    // Adjust the data types and remove the extra placeholder
-                    $stmt->bind_param("ssss", $brand, $type, $imagePath, $userDepartment);
-                    $stmt->execute();
-
-                    header("Location: dashboard.php");
-                    exit();
-
+                    $stmt->bind_param("ssss", $equipment, $type, $imagePath, $userDepartment);
+                    if ($stmt->execute()) {
+                        header("Location: dashboard.php");
+                        exit();
+                    } else {
+                        echo "Error in executing statement: " . $stmt->error;
+                    }
                     $stmt->close();
                 } else {
                     echo "Error in preparing statement: " . $conn->error;
@@ -52,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo "Error retrieving user's department";
             }
         } else {
-            echo "Error retrieving user's ID";
+            echo "Error preparing user query: " . $conn->error;
         }
     } else {
         echo "User not authenticated";

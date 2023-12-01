@@ -12,20 +12,20 @@ if ($conn->connect_error) {
 
 $department = $_GET['department'];
 
-$sql = "SELECT brand FROM equipment WHERE department = ?";
+$sql = "SELECT DISTINCT type FROM equipment WHERE department = ?";
 $stmt = $conn->prepare($sql);
 
 if ($stmt) {
     $stmt->bind_param("s", $department);
     $stmt->execute();
     $result = $stmt->get_result();
-    $equipmentOptions = array();
+    $equipmentTypes = array();
 
     while ($row = $result->fetch_assoc()) {
-        $equipmentOptions[] = $row['brand'];
+        $equipmentTypes[] = $row['type'];
     }
 
-    echo json_encode($equipmentOptions);
+    echo json_encode($equipmentTypes);
 } else {
     echo json_encode(array());
 }

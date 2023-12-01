@@ -1,12 +1,11 @@
-function displayItemsByType(selectedType) {
-    fetch(`fetchItems.php?type=${selectedType}`)
-        .then((response) => response.json())
-        .then((data) => {
-            // Process the retrieved items and display them in the desired format
-            // Replace this with your actual logic to display items
-            console.log(data); // You can inspect the data in the console
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
+function loadEquipmentItems(type) {
+    // AJAX request to fetch equipment items for the selected type
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("equipment-items").innerHTML = this.responseText;
+        }
+    };
+    xhttp.open("GET", "fetchEquipmentItems.php?type=" + type, true);
+    xhttp.send();
 }

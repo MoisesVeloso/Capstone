@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="container">
-            <form action="insert-request.php" method="post" class="formContainer">
+            <form action="insert-request-testing.php" method="post" class="formContainer">
                 <div class="form">
                     <h1 class="header">Request Form</h1>
 
@@ -21,8 +21,8 @@
                     <label for="fullname">Full Name</label><br>
                     <input type="text" id="fullname" name="fullname" class="textbox" placeholder="Full Name" required><br>
             
-                    <label for="year-section">Year and Section</label><br>
-                    <input type="text" id="year-section" name="year-section" class="textbox" placeholder="Year & Section" required><br>
+                    <label for="year-section">Year Level and Section</label><br>
+                    <input type="text" id="year-section" name="year-section" class="textbox" placeholder="Year Level & Section" required><br>
 
                     <label for="department">Department:</label> <br>
                     <select name="department" id="department" class="textbox" required>

@@ -37,7 +37,28 @@ $dashboardColor = isset($departmentColors[$department]) ? $departmentColors[$dep
         <li class="links">
             <a href="dashboard.php" class="active">Dashboard</a>
             <a href="history.php">History</a>
-            <a href="request.php">Request</a>
+            <a href="request.php">Request <span id="noti_number" class="noti_number"></span></a>
+            <script type="text/javascript">
+                        function loadDoc() {
+
+                        setInterval(function(){
+
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                            document.getElementById("noti_number").innerHTML = this.responseText;
+                            }
+                        };
+                        xhttp.open("GET", "data.php", true);
+                        xhttp.send();
+
+                        },1000);
+
+
+                        }
+                        loadDoc();
+                    </script>
+        
         </li>
         
         <div class="btnContainer">
@@ -56,9 +77,9 @@ $dashboardColor = isset($departmentColors[$department]) ? $departmentColors[$dep
                 </div>
             </div>
         </div>
-
-      <script src="Javascript/logoutFunction.js"></script>  
-      <script src="Javascript/active.js"></script>
+    <script src="Javascript/notifcation.js"></script>
+    <script src="Javascript/logoutFunction.js"></script>  
+    <script src="Javascript/active.js"></script>
 
     </div>
 
@@ -66,51 +87,73 @@ $dashboardColor = isset($departmentColors[$department]) ? $departmentColors[$dep
         <h1 class="dashboardHeader">Dashboard</h1>
 
         <div class="grid">
-        <?php
+    <?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "ResourceTracking";
 
-        include 'fetchItems.php';
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $database = "resourceTracking";
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-            $conn = new mysqli($servername, $username, $password, $database);
+    $sql = "SELECT DISTINCT type FROM equipment WHERE department = '$department'";
+    $result = $conn->query($sql);
 
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            } 
+    while ($row = $result->fetch_assoc()) {
+        $type = $row['type'];
 
-            $sql = "SELECT DISTINCT type FROM equipment WHERE department = '$department'";
-            $result = $conn->query($sql);
+        $sqlExample = "SELECT * FROM equipment WHERE department = '$department' AND type = '$type' LIMIT 1";
+        $resultExample = $conn->query($sqlExample);
 
-            while ($row = $result->fetch_assoc()) {
-                $type = $row['type'];
+        if ($rowExample = $resultExample->fetch_assoc()) {
+            echo '<div class="grid-item" onclick="fetchEquipment(\'' . htmlspecialchars($rowExample['type']) . '\')">';
+            echo '<img src="' . htmlspecialchars($rowExample['image_path']) . '" alt="Equipment Image" class="img-container">';
+            echo '<div class="itemText">';
+            echo '<p> ' . htmlspecialchars($rowExample['type']) . '</p>';
 
-                $imagePath = fetchImagePathForType($type);
+            echo '</div>';
+            echo '</div>';
+        }
+    }
+    $conn->close();
+    ?>
+</div>
 
-                echo '<div class="grid-item grid-item-clickable" data-type=""' . htmlspecialchars($type) . '">';
-                echo '<img src="' . htmlspecialchars($imagePath) . '" alt="Equipment Image" class="img-container">';
-                echo '<div class="itemText">';
-                echo "<p>$type</p>";
-                echo '</div>';
-                echo '</div>';
+<div id="equipmentContainer">
+    
+</div>
+
+<script>
+function fetchEquipment(type) {
+                const department = '<?php echo $department; ?>';
+
+                // Hide the grid items
+                const gridItems = document.querySelectorAll('.grid-item');
+                gridItems.forEach(item => {
+                    item.style.display = 'none';
+                });
+
+                const addBtn = document.querySelector('.addbtn');
+                addBtn.style.display = 'none';
+
+                fetch(`getEquipmentByType.php?type=${type}&department=${department}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('equipmentContainer').innerHTML = data;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching equipment:', error);
+                    });
             }
+        </script>
 
-            $conn->close();
-            ?>
-
-            <div class="grid" id="grid"></div>
-            <div class="item-list" style="display: none;" id="item-list"></div>
-
-
-            <script src="Javascript/displayItems.js"></script>
-        </div>
-
-
-        <div class="addbtn">
-            <a href="additem.php"><input type="button" class="btn" value="Add Equipment"></a>
-        </div>
+<div class="addbtn">
+        <a href="additem.php"><input type="button" class="btn" value="Add Equipment"></a>
     </div>
+   
+</div>
 </body>
 </html>

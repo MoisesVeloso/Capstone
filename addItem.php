@@ -15,7 +15,7 @@
             <form action="addEquipment.php" method="post" enctype="multipart/form-data">
                 <div class="form">
                     <label for="brand">Label</label><br>
-                    <input type="text" id="brand" name="brand" required><br>
+                    <input type="text" id="equipment" name="equipment" required><br>
 
                     <label for="type">Type:</label><br>
                     <input type="text" id="type" name="type" required><br>

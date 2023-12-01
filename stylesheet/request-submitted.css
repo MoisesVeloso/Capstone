@@ -44,6 +44,17 @@ span{
     background-color: #066809;
     color: white;
 }
+.btnlink{
+    margin-top: 20px;
+}
+a{
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+}
+a:hover{
+    color: #07a10d;
+}
 @media only screen and (max-width: 600px) {
     body{
         display: flex;
