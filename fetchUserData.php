@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($checkResult->num_rows > 0) {
         // Reference number already exists in the form table
-        header("Location: form.php?error=Reference number already exists.");
+        header("Location: form.php?error=Reference number already submitted.");
         exit();
     }
     } else {
